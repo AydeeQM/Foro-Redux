@@ -11,6 +11,7 @@ const App = ({ foro }) => {
         <h3>{item.comment}</h3>
         <button onClick = {deleteComment(item)}> Remove Comment </button>
       </li>)
+      console.log(foro.lenght);
   });
   const onSubmit = e => {
      e.preventDefault();
@@ -38,7 +39,7 @@ const App = ({ foro }) => {
             </form>
          </header>
          <div className="main">
-            <h2>Comment</h2><span> {foro.lenght} </span>
+            <h2>Comment</h2><span> cantidad {foro.lenght} </span>
             <ul id="invitedList">{foroList}</ul>
          </div>
       </div>

@@ -1,46 +1,70 @@
 import React, { Component } from 'react';
-import { addComment, deleteComment } from './actions';
+import { addComment, removeComment } from './actions';
 import { connect } from 'redux-zero/react';
 import './App.css';
 
+const User = ({name, comment, index}) => {
+	return (
+    <div className="data">
+			<div className="lista">
+        <h4><i class="fa fa-user-circle" aria-hidden="true"></i> @{name}</h4>
+        <h5>{comment}</h5>
+        <button className="delete" onClick={() => removeComment(index)}>
+					Remove Comment
+				</button>
+		</div>
+    </div>
+	);
+}
+
 const App = ({ foro }) => {
-  const foroList = foro.map((item, index) => {
-    return(
-      <li key={index}>
-        <h1>{item.name}</h1>
-        <h3>{item.comment}</h3>
-        <button onClick = {deleteComment(item)}> Remove Comment </button>
-      </li>)
-      console.log(foro.lenght);
-  });
   const onSubmit = e => {
      e.preventDefault();
-     addComment(this.refInput.value, this.refInput2.value);
+     if(this.refInput.value && this.refInput2.value){
+      addComment(this.refInput.value, this.refInput2.value);
+      this.refInput.value = '';
+      this.refInput2.value = '';
+    }
+     
   };
+const foroComponent =  foro.map ( (item, index) => {
+    return <User
+        key = {index}
+        name={item.name}
+        comment={item.comment}
+        index={index}
+       />
+  })
+
    return (
-      <div className="wrapper">
+      <div className="container-fluid wrapper">
          <header>
             <h1>FORO</h1>
             <p> Comment App </p>
+
             <form onSubmit={onSubmit}>
+            <div className="inner-wrap">
+            <label>Your Name
                <input
                   type="text"
                   name="name"
                   placeholder="User"
                   ref={e => (this.refInput = e)}
                />
-               <input 
+               </label>
+               <label>Your Comment
+               <textarea 
                 type = "text" 
                 placeholder = "Comment"
                 ref = {e => (this.refInput2 = e)}/>
-               <button type="submit" name="submit" value="submit">
-                  Submit
-               </button>
+               <input type="submit" name="submit" value="Post Comment"/>
+               </label>
+               </div>
             </form>
          </header>
          <div className="main">
-            <h2>Comment</h2><span> cantidad {foro.lenght} </span>
-            <ul id="invitedList">{foroList}</ul>
+            <h2><i class="fa fa-commenting" aria-hidden="true"></i> {foro.length} comments</h2>
+              {foroComponent}
          </div>
       </div>
    );

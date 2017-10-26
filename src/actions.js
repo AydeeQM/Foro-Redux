@@ -14,11 +14,9 @@ export const addComment = (name, comment) => {
    console.log(newList);
 };
 
-export const deleteComment = (id) =>{
-    let oldList = store.getState().foro;
-    for (let i in oldList)
-        if (oldList[i].id == id) {
-            oldList.splice(i , 1);
-        }
-
+  export const removeComment = (index) => {
+	const newforoList =  store.getState().foro.filter((item, idx) => idx !== index );
+	store.setState({
+		foro: newforoList
+	})
 }
